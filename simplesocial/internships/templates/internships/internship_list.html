@@ -1,0 +1,44 @@
+{% extends "internships/internship_base.html" %}
+
+{% block preinternship %}
+<div class="col-md-4">
+	<div class="content">
+		{% if user.is_authenticated %}
+		<h2>
+			Welcome back
+			<a href="{% url 'posts:for_user' username=user.username %}">@{{user.username }}</a>
+		</h2>
+
+    {% endif %}
+			<h2>Internships</h2>
+
+			<p>Welcome to the Internships Page! Select a Internship with a shared interest!</p>
+	</div>
+	{% if user.is_authenticated %}
+	<a href="{% url 'internships:create' %}" class="btn btn-md btn-fill btn-warning"><span class="glyphicon glyphicon-plus-sign"></span> Add New Internship!</a>
+	{% endif %}
+</div>
+{% endblock %}
+
+{% block internship_content %}
+<div class="col-md-8">
+	<div class="list-internship">
+		{% for internship in object_list %}
+		  <a class="list-internship-item" href="{% url 'internships:single' slug=internship.slug %}">
+			     <h3 class="title list-internship-item-heading">{{ internship.name }}</h3>
+			<div class="list-internship-item-text container-fluid">
+				{{ internship.description_html|safe }}
+				<div class="row">
+					<div class="col-md-4">
+						<span class="badge">{{ internship.likes.count }}</span> like{{ internship.likes.count|pluralize }}
+					</div>
+					<div class="col-md-4">
+						<span class="badge">{{ internship.posts.count }}</span> post{{ internship.posts.count|pluralize }}
+					</div>
+				</div>
+			</div>
+		</a>
+		{% endfor %}
+	</div>
+</div>
+{% endblock %}

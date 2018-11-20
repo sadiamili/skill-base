@@ -1,0 +1,39 @@
+{% extends "skills/skill_base.html" %}
+
+{% block preskill %}
+
+
+<h1>{{skill.name}}</h1>
+<h2> Like Count: {{skill.likes.count}}</h2>
+
+  <div class="content">
+
+
+				{% if user in skill.likes.all %}
+					<a href="{% url 'skills:leave' slug=skill.slug %}" class="btn btn-lg btn-fill btn-warning"><span class="glyphicon glyphicon-remove-circle"></span> Unlike</a>
+				{% else %}
+					<a href="{% url 'skills:like' slug=skill.slug %}" class="btn btn-lg btn-fill btn-warning"><span class="glyphicon glyphicon-ok-circle"></span> Like</a>
+				{% endif %}
+
+
+
+</div>
+
+{% endblock %}
+
+
+{% block skill_content %}
+
+<div class="col-md-8">
+	{% if skill.posts.count == 0 %}
+	<h2>No posts in this skill yet!</h2>
+
+	{% else %}
+
+		{% for post in skill.posts.all %}
+			{% include "posts/_post.html" %}
+		{% endfor %}
+
+	{% endif %}
+</div>
+{% endblock %}

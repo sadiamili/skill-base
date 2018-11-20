@@ -1,0 +1,44 @@
+{% extends "skills/skill_base.html" %}
+
+{% block preskill %}
+<div class="col-md-4">
+	<div class="content">
+		{% if user.is_authenticated %}
+		<h2>
+			Welcome back
+			<a href="{% url 'posts:for_user' username=user.username %}">@{{user.username }}</a>
+		</h2>
+
+    {% endif %}
+			<h2>Skills</h2>
+
+			<p>Welcome to the Skills Page! Add your skills here!</p>
+	</div>
+	{% if user.is_authenticated %}
+	<a href="{% url 'skills:create' %}" class="btn btn-md btn-fill btn-warning"><span class="glyphicon glyphicon-plus-sign"></span> Add New Skill!</a>
+	{% endif %}
+</div>
+{% endblock %}
+
+{% block skill_content %}
+<div class="col-md-8">
+	<div class="list-skill">
+		{% for skill in object_list %}
+		  <a class="list-skill-item" href="{% url 'skills:single' slug=skill.slug %}">
+			     <h3 class="title list-skill-item-heading">{{ skill.name }}</h3>
+			<div class="list-skill-item-text container-fluid">
+				{{ skill.description_html|safe }}
+				<div class="row">
+					<div class="col-md-4">
+						<span class="badge">{{ skill.likes.count }}</span> like{{ skill.likes.count|pluralize }}
+					</div>
+					<div class="col-md-4">
+						<span class="badge">{{ skill.posts.count }}</span> post{{ skill.posts.count|pluralize }}
+					</div>
+				</div>
+			</div>
+		</a>
+		{% endfor %}
+	</div>
+</div>
+{% endblock %}

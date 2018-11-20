@@ -1,0 +1,39 @@
+{% extends "courses/course_base.html" %}
+
+{% block precourse %}
+
+
+<h1>{{course.name}}</h1>
+<h2> Like Count: {{course.likes.count}}</h2>
+
+  <div class="content">
+
+
+				{% if user in course.likes.all %}
+					<a href="{% url 'courses:leave' slug=course.slug %}" class="btn btn-lg btn-fill btn-warning"><span class="glyphicon glyphicon-remove-circle"></span> Unlike</a>
+				{% else %}
+					<a href="{% url 'courses:like' slug=course.slug %}" class="btn btn-lg btn-fill btn-warning"><span class="glyphicon glyphicon-ok-circle"></span> Like</a>
+				{% endif %}
+
+
+
+</div>
+
+{% endblock %}
+
+
+{% block course_content %}
+
+<div class="col-md-8">
+	{% if course.posts.count == 0 %}
+	<h2>No posts in this course yet!</h2>
+
+	{% else %}
+
+		{% for post in course.posts.all %}
+			{% include "posts/_post.html" %}
+		{% endfor %}
+
+	{% endif %}
+</div>
+{% endblock %}
